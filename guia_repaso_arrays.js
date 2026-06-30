@@ -1,131 +1,92 @@
-/**
- * GUÍA DE REPASO: Métodos de Arrays en JavaScript Moderno (ES6+)
- * 
- * Este archivo sirve como material de referencia rápido para resolver los ejercicios.
- * Aquí repasaremos la sintaxis de funciones flecha y los métodos clave de arrays:
- * .filter(), .map(), .find(), .some() y .reduce().
- */
-
-// =========================================================================
-// 1. FUNCIONES FLECHA (ARROW FUNCTIONS)
-// =========================================================================
-// Son la forma moderna y concisa de escribir funciones en JS, muy usadas
-// en métodos de arrays como funciones de callback.
-
-// Sintaxis clásica (función tradicional):
-function duplicarTradicional(x) {
-  return x * 2;
-}
-
-// Sintaxis flecha estándar:
-const duplicarFlecha = (x) => {
-  return x * 2;
-};
-
-// Sintaxis flecha con retorno implícito (¡muy común!):
-// Si la función solo tiene una línea que devuelve un valor, puedes omitir las llaves {} y la palabra 'return'.
-const duplicarCorto = x => x * 2; 
-
-// Nota: Si no hay argumentos, se usan paréntesis vacíos: () => console.log('Hola')
-// Nota 2: Si hay un solo argumento, los paréntesis son opcionales: x => x * 2
-
-
-// =========================================================================
-// 2. MÉTODO: .filter()
-// =========================================================================
-// ¿Qué hace?: Filtra los elementos de un array basándose en una condición lógica.
-// Retorna: Un NUEVO array con los elementos que cumplan la condición (para los que el callback devuelva true).
-//          Si ningún elemento cumple, devuelve un array vacío [].
-// Complejidad: O(n) - Recorre todo el array.
+// Guía de Repaso: Métodos de Arrays (Listas)
 
 const numeros = [1, 2, 3, 4, 5];
 
-// Ejemplo: Filtrar números mayores que 3
-const mayoresQueTres = numeros.filter(num => num > 3);
-// mayoresQueTres es: [4, 5]
+// =========================================================================
+// 1. MÉTODOS BÁSICOS Y TRANSFORMACIÓN
+// =========================================================================
+
+// filter: Retorna un nuevo array con elementos que cumplan la condición
+const mayoresDeTres = numeros.filter(n => n > 3); // [4, 5]
+
+// map: Retorna un nuevo array de igual tamaño con los elementos transformados
+const duplicados = numeros.map(n => n * 2); // [2, 4, 6, 8, 10]
+
+// flatMap: Mapea cada elemento y aplana el resultado un nivel. Muy útil en GIS 
+// para manejar arrays anidados de coordenadas o características.
+const coordenadas = [[43.5], [43.6, -5.6]];
+const aplanadas = coordenadas.flatMap(c => c); // [43.5, 43.6, -5.6]
 
 
 // =========================================================================
-// 3. MÉTODO: .map()
+// 2. BÚSQUEDA Y COMPROBACIÓN
 // =========================================================================
-// ¿Qué hace?: Transforma cada elemento de un array uno por uno.
-// Retorna: Un NUEVO array de la MISMA longitud que el original, conteniendo los resultados transformados.
-// Complejidad: O(n) - Transforma todos los elementos.
 
-// Ejemplo: Duplicar todos los números del array
-const duplicados = numeros.map(num => num * 2);
-// duplicados es: [2, 4, 6, 8, 10]
+// find: Retorna el primer elemento coincidente, o undefined.
+const valorEncontrado = numeros.find(n => n === 3); // 3
 
-// --- Encadenamiento (Chaining) ---
-// Como filter y map devuelven arrays, se pueden encadenar:
-const duplicadosMayoresQueTres = numeros
-  .filter(num => num > 3)   // Filtra primero: [4, 5]
-  .map(num => num * 2);     // Duplica después: [8, 10]
+// findIndex: Retorna el índice del primer elemento coincidente, o -1.
+const indiceEncontrado = numeros.findIndex(n => n === 3); // 2
 
+// some: Retorna true si al menos un elemento cumple la condición.
+const hayPares = numeros.some(n => n % 2 === 0); // true
 
-// =========================================================================
-// 4. MÉTODO: .find()
-// =========================================================================
-// ¿Qué hace?: Busca el primer elemento que cumpla una condición.
-// Retorna: El ELEMENTO en sí (objeto, número, etc.) o `undefined` si no encuentra ninguno.
-// Nota: Se detiene en cuanto encuentra la primera coincidencia (eficiente).
+// every: Retorna true si todos los elementos cumplen la condición.
+const todosPares = numeros.every(n => n % 2 === 0); // false
 
-const usuarios = [
-  { id: 'usr-1', nombre: 'Ana' },
-  { id: 'usr-2', nombre: 'Juan' }
-];
-
-// Ejemplo: Buscar usuario con id 'usr-2'
-const usuarioEncontrado = usuarios.find(usr => usr.id === 'usr-2');
-// usuarioEncontrado es: { id: 'usr-2', nombre: 'Juan' }
-
-// Diferencia con .filter():
-// - filter() devuelve SIEMPRE un array (ej: [{ id: 'usr-2', ... }]).
-// - find() devuelve el ELEMENTO directamente (ej: { id: 'usr-2', ... }) o undefined.
+// includes: Retorna true si el elemento existe en el array (búsqueda por valor para primitivos).
+const contieneDos = numeros.includes(2); // true
 
 
 // =========================================================================
-// 5. MÉTODOS DE COMPROBACIÓN: .some() y .every()
+// 3. REDUCCIÓN (reduce)
 // =========================================================================
-// Retornan un valor booleano (true o false). Son muy eficientes porque usan
-// evaluación de cortocircuito (se detienen en cuanto conocen el resultado).
-
-// A. .some(): Comprueba si AL MENOS UN elemento cumple la condición.
-const hayPares = numeros.some(num => num % 2 === 0);
-// hayPares es: true (porque 2 y 4 son pares)
-
-// B. .every(): Comprueba si TODOS los elementos cumplen la condición.
-const todosPositivos = numeros.every(num => num > 0);
-// todosPositivos es: true (todos son mayores que 0)
+// Reduce un array a un único valor (acumulador) usando un callback.
+// Requiere un valor inicial.
+const sumaTotal = numeros.reduce((acumulador, actual) => acumulador + actual, 0); // 15
 
 
 // =========================================================================
-// 6. MÉTODO: .reduce() (El más potente y versátil)
+// 4. MÉTODOS MUTABLES VS INMUTABLES
 // =========================================================================
-// ¿Qué hace?: Reduce un array a un ÚNICO valor (que puede ser un número, un string,
-//              un objeto, o incluso otro array).
-// Sintaxis: array.reduce((acumulador, elementoActual) => { ... }, valorInicial)
-// ¡Importante!: No olvides el `valorInicial` como segundo parámetro. Si no lo pones,
-//               tomará el primer elemento del array como acumulador inicial, lo cual
-//               suele causar errores con arrays de objetos.
+// Los métodos mutables modifican el array original. Deben evitarse en React.
+// Los métodos inmutables crean y devuelven un nuevo array.
 
-// Ejemplo A: Sumar todos los números del array
-const sumaTotal = numeros.reduce((acumulador, num) => {
-  return acumulador + num;
-}, 0); // 0 es el valor inicial del acumulador
-// Iteración 1: acumulador = 0, num = 1 => retorna 1
-// Iteración 2: acumulador = 1, num = 2 => retorna 3
-// ...
-// sumaTotal es: 15
+// Mutables (Modifican el original):
+// - push() / pop() (añadir/quitar al final)
+// - unshift() / shift() (añadir/quitar al principio)
+// - splice() (eliminar o insertar elementos en una posición específica)
+// - sort() (ordenar el array en el sitio)
+// - reverse() (invertir el array en el sitio)
 
-// Ejemplo B: Contar elementos por tipo (Agrupación simple)
-// Imagina que queremos contar cuántas frutas tenemos por su nombre:
-const frutas = ['manzana', 'platano', 'manzana', 'naranja', 'platano'];
+// Inmutables (No modifican, crean una copia):
+// - map(), filter(), flatMap()
+// - slice() (extrae una porción del array)
+// - concat() (une dos o más arrays)
+// - [...array] (uso del operador spread para crear copias)
 
-const conteoFrutas = frutas.reduce((acumulador, fruta) => {
-  // Si la fruta ya está en el objeto acumulador, le sumamos 1, si no, la inicializamos en 1
-  acumulador[fruta] = (acumulador[fruta] || 0) + 1;
-  return acumulador; // ¡SIEMPRE debes retornar el acumulador en cada iteración!
-}, {}); // {} (un objeto vacío) es nuestro acumulador inicial
+// Cuidado con .sort() en JS:
+const desordenados = [10, 5, 8];
+// desordenados.sort(); // Mutará 'desordenados' directamente.
+// Forma inmutable correcta usando spread:
+const ordenados = [...desordenados].sort((a, b) => a - b);
 
-// conteoFrutas es: { manzana: 2, platano: 2, naranja: 1 }
+
+// =========================================================================
+// 5. BUCLES: for...of VS forEach
+// =========================================================================
+
+// A. for...of:
+// Se utiliza para recorrer elementos iterables de forma asíncrona o cuando se 
+// necesita poder pausar o romper el bucle usando break o continue.
+for (const num of numeros) {
+  if (num === 3) break; // Totalmente permitido
+}
+
+// B. forEach:
+// Ejecuta una función callback por cada elemento. 
+// - NO se puede parar con break o continue.
+// - NO retorna nada (undefined).
+// - Cuándo no usarlo: No lo uses si quieres transformar datos (para eso está map) 
+//   o si necesitas interrumpir el bucle bajo una condición.
+numeros.forEach(num => console.log(num));

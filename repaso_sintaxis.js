@@ -1,125 +1,131 @@
-/**
- * GUÍA DE REPASO: Sintaxis Esencial de JavaScript para Programadores
- * 
- * Como ya vienes de Ingeniería Informática, este archivo va al grano con las 
- * particularidades y características propias de JavaScript (especialmente ES6+), 
- * comparándolo con lenguajes fuertemente tipados como Java/C++.
- */
+// Guía de Repaso: Sintaxis Esencial de JavaScript
 
 // =========================================================================
-// 1. VARIABLES: const vs let vs var
+// 1. ÁMBITO (SCOPE) Y HOISTING
 // =========================================================================
-// - const: Para valores que no van a ser reasignados. (Usa esta por defecto).
-// - let: Para variables cuyo valor cambiará (reemplaza al antiguo 'var').
-// - var: ¡OBSOLETO! No lo uses. Tiene problemas de scope global/función (hoisting).
 
-const pi = 3.1416; // No se puede reasignar. pi = 3.14 daría error.
-let contador = 0;
-contador += 1; // Correcto.
+// var: Scope de función. Sufre hoisting (la declaración se eleva al inicio).
+// let/const: Scope de bloque. No se pueden usar antes de declarar (Temporal Dead Zone).
 
-// OJO con const en Objetos y Arrays:
-const miArray = [1, 2, 3];
-miArray.push(4); // ¡Permitido! La referencia al array no cambia, solo su contenido.
-// miArray = [4, 5]; // Error, no puedes asignarle un nuevo array completo.
-
-
-// =========================================================================
-// 2. COMPARACIONES: == vs ===
-// =========================================================================
-// En JS existen dos tipos de igualdad. Usa SIEMPRE === (igualdad estricta).
-
-console.log(5 == '5');  // true  -> Convierte tipos automáticamente (coerción). Evitar.
-console.log(5 === '5'); // false -> Compara tipo y valor. Seguro y recomendado.
-
-console.log(null == undefined);  // true
-console.log(null === undefined); // false
-
-
-// =========================================================================
-// 3. VALORES TRUTHY Y FALSY (Verdaderos y Falsos)
-// =========================================================================
-// En JS, cualquier valor en una estructura condicional (if) evalúa a true o false.
-
-// Valores que evalúan a FALSE (Falsy):
-// - false, 0, -0, 0n (BigInt), "" (string vacío), null, undefined, NaN.
-
-// Valores que evalúan a TRUE (Truthy):
-// - Todo lo demás, incluyendo arrays vacíos `[]` y objetos vacíos `{}`.
-
-const nombreUsuario = "";
-if (!nombreUsuario) {
-  console.log("El nombre está vacío (evalúa a falso)");
+function ejemploScope() {
+  if (true) {
+    var funcionScope = 'accesible fuera del if';
+    let bloqueScope = 'solo accesible dentro del if';
+  }
+  console.log(funcionScope); // Funciona
+  // console.log(bloqueScope); // Error: bloqueScope is not defined
 }
 
-
-// =========================================================================
-// 4. TEMPLATE LITERALS (Plantillas de texto)
-// =========================================================================
-// Olvídate de concatenar con '+'. Usa comillas invertidas ` ` y ${variable} para inyectar código.
-
-const nombre = "Gijón";
-const temp = 21;
-const mensaje = `La temperatura en ${nombre} es de ${temp} grados.`; 
-// "La temperatura en Gijón es de 21 grados."
+// Hoisting (Comportamiento interno de JS)
+// console.log(variableLet); // Error de referencia
+console.log(variableVar); // Imprime: undefined (la declaración se elevó, pero no el valor)
+var variableVar = 'hola';
 
 
 // =========================================================================
-// 5. OBJETOS Y ACCESO DINÁMICO A PROPIEDADES
+// 2. TIPOS DE DATOS: PRIMITIVOS VS OBJETOS
 // =========================================================================
-const poi = {
-  id: 'poi-100',
-  nombre: 'San Lorenzo',
-  categoria: 'playa'
-};
 
-// Acceso clásico por punto:
-console.log(poi.nombre); // 'San Lorenzo'
+// Primitivos (inmutables, se comparan por valor):
+// string, number, boolean, null, undefined, symbol, bigint.
+let a = 10;
+let b = a; // Se copia el valor real
+b = 20;    // 'a' sigue siendo 10
 
-// Acceso dinámico por corchetes (¡Muy útil en reduce/bucles!):
-const clave = 'categoria';
-console.log(poi[clave]); // 'playa' (equivale a poi['categoria'])
-
-// Atajo de propiedad (Property Shorthand):
-// Si el nombre de la variable coincide con el nombre de la propiedad del objeto, puedes simplificar:
-const lat = 43.5;
-const lng = -5.6;
-const coords = { lat, lng }; // Equivale a { lat: lat, lng: lng }
+// Objetos (mutables, se comparan y copian por referencia):
+// arrays, objetos literales, funciones.
+let obj1 = { valor: 10 };
+let obj2 = obj1; // Se copia la referencia en memoria
+obj2.valor = 20;
+console.log(obj1.valor); // Imprime: 20 (se modificó el mismo objeto)
 
 
 // =========================================================================
-// 6. OPERADORES MODERNOS CLAVE PARA GIS (ES2020+)
+// 3. FUNCIONES: ARROW VS NORMALES
 // =========================================================================
 
-// A. Optional Chaining (?.)
-// Evita errores de tipo "Cannot read property of undefined" si una propiedad anidada no existe.
-const respuestaAPI = {
-  status: 200,
-  data: {
-    // metadata: { version: '1.2' } // Supongamos que no viene esta propiedad
+// A. Funciones tradicionales
+// - Tienen su propio contexto 'this' (depende de cómo se invoquen).
+// - Tienen acceso al objeto especial 'arguments'.
+function tradicional(x, y) {
+  console.log(arguments); // [x, y]
+  return x + y;
+}
+
+// B. Arrow Functions (() => {})
+// - NO tienen propio 'this' (heredan el 'this' léxico de donde fueron creadas).
+// - NO tienen objeto 'arguments'.
+// - Retorno implícito si son de una sola línea.
+const sumar = (x, y) => x + y;
+
+
+// =========================================================================
+// 4. PARÁMETROS POR DEFECTO Y OPERADORES REST/SPREAD
+// =========================================================================
+
+// Parámetros por defecto
+const saludar = (nombre = 'Invitado') => `Hola ${nombre}`;
+
+// Operador Rest (...): Agrupa el resto de argumentos pasados en un array.
+// Debe ser siempre el último parámetro de la función.
+function procesarCoordenadas(centro, ...otrosPuntos) {
+  console.log('Centro:', centro);
+  console.log('Resto de puntos:', otrosPuntos); // Array con el resto de argumentos
+}
+
+// Operador Spread (...): Esparce o expande elementos de un array u objeto.
+const coordsIniciales = [43.5, -5.6];
+const nuevasCoords = [...coordsIniciales, 12]; // [43.5, -5.6, 12]
+
+
+// =========================================================================
+// 5. MÉTODOS ESTÁTICOS DE OBJETOS
+// =========================================================================
+const visor = { id: 'v1', zoom: 12, activo: true };
+
+console.log(Object.keys(visor));   // ['id', 'zoom', 'activo']
+console.log(Object.values(visor)); // ['v1', 12, true]
+console.log(Object.entries(visor)); // [['id', 'v1'], ['zoom', 12], ['activo', true]]
+
+
+// =========================================================================
+// 6. CONCEPTOS CLAVE: CLOSURES Y "this"
+// =========================================================================
+
+// Closures (Clausuras):
+// Una función que recuerda y accede a variables de su scope exterior incluso después
+// de que la función exterior haya terminado de ejecutarse.
+function crearContador() {
+  let contador = 0; // Variable privada protegida por el closure
+  return {
+    incrementar: () => ++contador,
+    obtenerValor: () => contador
+  };
+}
+const miContador = crearContador();
+miContador.incrementar(); // 1
+console.log(miContador.obtenerValor()); // 1
+
+// Contexto "this" en JS:
+// 'this' hace referencia al objeto que está ejecutando la función actual.
+const persona = {
+  nombre: 'Marta',
+  saludarTradicional() {
+    console.log(this.nombre); // Funciona. 'this' es el objeto 'persona'
+  },
+  saludarArrow: () => {
+    console.log(this.nombre); // Imprime: undefined. Las arrow functions heredan 'this' del scope global
   }
 };
 
-// Sin optional chaining: respuestaAPI.data.metadata.version -> ¡Rompe el programa!
-// Con optional chaining:
-const version = respuestaAPI.data?.metadata?.version; // Devuelve undefined de forma segura sin romper nada.
-
-// B. Nullish Coalescing (??)
-// Devuelve el valor de la derecha SOLAMENTE si el de la izquierda es null o undefined.
-// Es mejor que usar '||' porque el operador '||' descarta valores válidos como el número 0 o un string vacío.
-const visitas = respuestaAPI.data?.visitas ?? 0; // Si visitas es undefined o null, usa 0.
-
 
 // =========================================================================
-// 7. DESESTRUCTURACIÓN (DESTRUCTURING)
+// 7. MÓDULOS EN JAVASCRIPT (ES MODULES)
 // =========================================================================
-// Permite extraer propiedades de objetos o elementos de arrays de forma limpia.
+// Sintaxis estándar para modularizar código (se usa en React).
 
-const persona = { primerNombre: 'Fernando', puesto: 'Becario' };
-const { primerNombre, puesto } = persona; // Crea dos variables independientes
-console.log(primerNombre); // 'Fernando'
+// export const config = { zoom: 10 };       // Named export (se importa con llaves)
+// export default function visor() {}        // Default export (se importa sin llaves)
 
-// Desestructuración en parámetros de funciones (muy usado en React):
-function saludarUsuario({ primerNombre }) {
-  console.log(`Hola, ${primerNombre}`);
-}
-saludarUsuario(persona);
+// Importación:
+// import visorDefault, { config } from './visor.js';
