@@ -1,8 +1,8 @@
 # JavaScript & TypeScript para Visores Web (NTT DATA)
 
-Este repositorio contiene la ruta de aprendizaje, apuntes y ejercicios prácticos para el dominio de JavaScript Moderno, TypeScript y React, orientado al desarrollo de aplicaciones GIS (frontend y backend) en NTT DATA.
+Este repositorio contiene la ruta de aprendizaje, apuntes y ejercicios prácticos para el dominio de JavaScript Moderno, TypeScript y React, orientado al desarrollo de aplicaciones GIS.
 
-La estructura de estudio sigue las bases del curso de Fernando Herrera y las buenas prácticas recomendadas para el desarrollo web profesional.
+La estructura de estudio sigue las bases de cursos como los de Fernando Herrera y midudev.
 
 ---
 
@@ -38,14 +38,3 @@ La estructura de estudio sigue las bases del curso de Fernando Herrera y las bue
 ├── ejercicio2_inmutabilidad.js # Práctica de estructuración e inmutabilidad.
 └── ejercicio3_async.js       # Práctica de promesas y asincronía.
 ```
-
----
-
-## Cómo ejecutar los ejercicios
-
-Si tienes Node.js instalado, puedes ejecutar cualquier archivo directamente desde la terminal:
-```bash
-node ejercicio1_arrays.js
-```
-
-Si no tienes Node.js instalado, puedes copiar y pegar el código en la consola del navegador (F12) o importarlo en un archivo HTML de pruebas.
