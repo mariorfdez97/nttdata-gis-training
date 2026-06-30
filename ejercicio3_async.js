@@ -29,8 +29,8 @@ function simularFetchDetallesCapa(capa) {
  * 1. Obtener las capas llamando a simularFetchCapas usando async/await.
  */
 async function obtenerCapas() {
-  // TODO: Implementar
-  return [];
+  const capas = await simularFetchCapas();
+  return capas;
 }
 
 /**
@@ -38,7 +38,8 @@ async function obtenerCapas() {
  */
 async function cargarDetallesEnParalelo(listaCapas) {
   // TODO: Implementar
-  return [];
+  const detalles = await Promise.all(listaCapas.map(capa => simularFetchDetallesCapa(capa)));
+  return detalles;
 }
 
 /**
@@ -47,7 +48,12 @@ async function cargarDetallesEnParalelo(listaCapas) {
  */
 async function cargarDetallesConControlErrores(capa) {
   // TODO: Implementar
-  return {};
+  try {
+    const detalles = await simularFetchDetallesCapa(capa);
+    return detalles;
+  } catch (error) {
+    return { error: true, mensaje: error.message };
+  }
 }
 
 
