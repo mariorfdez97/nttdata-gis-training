@@ -1,0 +1,17 @@
+# Dependencias
+node_modules/
+dist/
+build/
+
+# Ficheros del sistema
+.DS_Store
+Thumbs.db
+
+# Configuración local de editores
+.vscode/
+.idea/
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.swp

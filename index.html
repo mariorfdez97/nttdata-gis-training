@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>JS Dashboard - NTT DATA GIS Prep</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg-color: #0b0f19;
+      --card-bg: #151d30;
+      --text-main: #f8fafc;
+      --text-muted: #94a3b8;
+      --primary: #00f2fe;
+      --primary-hover: #4facfe;
+      --accent: #10b981;
+      --border-color: #1e293b;
+      --terminal-bg: #05070c;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      background-color: var(--bg-color);
+      color: var(--text-main);
+      font-family: 'Outfit', sans-serif;
+      padding: 2.5rem 1.5rem;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .container {
+      max-width: 900px;
+      width: 100%;
+    }
+
+    header {
+      margin-bottom: 2.5rem;
+      text-align: center;
+    }
+
+    h1 {
+      font-size: 2.5rem;
+      font-weight: 800;
+      background: linear-gradient(135deg, var(--primary), var(--primary-hover));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      margin-bottom: 0.5rem;
+    }
+
+    p.subtitle {
+      color: var(--text-muted);
+      font-size: 1.1rem;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 1.5rem;
+      margin-bottom: 2rem;
+    }
+
+    .card {
+      background-color: var(--card-bg);
+      border: 1px solid var(--border-color);
+      border-radius: 12px;
+      padding: 1.5rem;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      transition: transform 0.2s ease, border-color 0.2s ease;
+    }
+
+    .card:hover {
+      transform: translateY(-2px);
+      border-color: var(--primary);
+    }
+
+    .card-header h2 {
+      font-size: 1.25rem;
+      font-weight: 600;
+      margin-bottom: 0.5rem;
+    }
+
+    .card-body {
+      color: var(--text-muted);
+      font-size: 0.95rem;
+      margin-bottom: 1.5rem;
+      line-height: 1.5;
+    }
+
+    .btn {
+      background: linear-gradient(135deg, #00f2fe, #4facfe);
+      color: #0b0f19;
+      border: none;
+      border-radius: 6px;
+      padding: 0.75rem 1.25rem;
+      font-weight: 600;
+      cursor: pointer;
+      font-family: inherit;
+      transition: opacity 0.2s ease;
+      text-align: center;
+      text-decoration: none;
+    }
+
+    .btn:hover {
+      opacity: 0.9;
+    }
+
+    .btn-secondary {
+      background: transparent;
+      color: var(--text-main);
+      border: 1px solid var(--border-color);
+    }
+
+    .btn-secondary:hover {
+      background-color: rgba(255, 255, 255, 0.05);
+      border-color: var(--text-muted);
+    }
+
+    .terminal-container {
+      background-color: var(--terminal-bg);
+      border: 1px solid var(--border-color);
+      border-radius: 12px;
+      padding: 1.5rem;
+      font-family: 'JetBrains Mono', monospace;
+      margin-top: 1rem;
+    }
+
+    .terminal-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      color: var(--text-muted);
+      font-size: 0.85rem;
+      border-bottom: 1px solid var(--border-color);
+      padding-bottom: 0.75rem;
+      margin-bottom: 1rem;
+    }
+
+    .terminal-dots {
+      display: flex;
+      gap: 6px;
+    }
+
+    .dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+    }
+
+    .dot-red { background-color: #ef4444; }
+    .dot-yellow { background-color: #f59e0b; }
+    .dot-green { background-color: #10b981; }
+
+    .terminal-body {
+      max-height: 350px;
+      overflow-y: auto;
+      font-size: 0.9rem;
+      line-height: 1.6;
+      color: #e2e8f0;
+      white-space: pre-wrap;
+    }
+
+    .text-success { color: var(--accent); }
+    .text-info { color: var(--primary); }
+    .text-muted { color: var(--text-muted); }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <h1>NTT DATA GIS - JS Playground</h1>
+      <p class="subtitle">Entorno local para la verificación de ejercicios prácticos de JavaScript</p>
+    </header>
+
+    <div class="grid">
+      <!-- Ejercicio 1 -->
+      <div class="card">
+        <div class="card-header">
+          <h2>1. Métodos de Arrays</h2>
+        </div>
+        <div class="card-body">
+          Pruebas sobre métodos de colecciones (`map`, `filter`, `find`, `some`, `reduce`) aplicados a datos geoespaciales.
+        </div>
+        <button class="btn" onclick="ejecutarScript('ejercicio1_arrays.js')">Ejecutar Pruebas</button>
+      </div>
+
+      <!-- Ejercicio 2 -->
+      <div class="card">
+        <div class="card-header">
+          <h2>2. Inmutabilidad</h2>
+        </div>
+        <div class="card-body">
+          Verificación de copias inmutables, actualización de estados anidados y uso correcto del operador spread (`...`).
+        </div>
+        <button class="btn" onclick="ejecutarScript('ejercicio2_inmutabilidad.js')">Ejecutar Pruebas</button>
+      </div>
+
+      <!-- Ejercicio 3 -->
+      <div class="card">
+        <div class="card-header">
+          <h2>3. Programación Asíncrona</h2>
+        </div>
+        <div class="card-body">
+          Ejecución de consultas simuladas en paralelo (`Promise.all`) y gestión de errores con `try/catch`.
+        </div>
+        <button class="btn" onclick="ejecutarScript('ejercicio3_async.js')">Ejecutar Pruebas</button>
+      </div>
+    </div>
+
+    <div class="terminal-container">
+      <div class="terminal-header">
+        <div class="terminal-dots">
+          <span class="dot dot-red"></span>
+          <span class="dot dot-yellow"></span>
+          <span class="dot dot-green"></span>
+        </div>
+        <span>Consola de Salida</span>
+        <span style="cursor: pointer;" onclick="limpiarConsola()">Limpiar</span>
+      </div>
+      <div class="terminal-body" id="console-output">Haz clic en "Ejecutar Pruebas" para ver los resultados...</div>
+    </div>
+  </div>
+
+  <script>
+    const outputElement = document.getElementById('console-output');
+
+    // Interceptar console.log
+    const originalLog = console.log;
+    console.log = function(...args) {
+      originalLog.apply(console, args);
+      const text = args.map(arg => 
+        typeof arg === 'object' ? JSON.stringify(arg, null, 2) : String(arg)
+      ).join(' ');
+      
+      if (outputElement.innerHTML === 'Haz clic en "Ejecutar Pruebas" para ver los resultados...') {
+        outputElement.innerHTML = '';
+      }
+      outputElement.innerHTML += text + '\n';
+      outputElement.scrollTop = outputElement.scrollHeight;
+    };
+
+    function limpiarConsola() {
+      outputElement.innerHTML = '';
+    }
+
+    async function ejecutarScript(fileName) {
+      limpiarConsola();
+      console.log(`>> Ejecutando ${fileName}...`);
+      
+      // Eliminar el script anterior si existe para recargarlo
+      const existingScript = document.getElementById('runner-script');
+      if (existingScript) {
+        existingScript.remove();
+      }
+
+      // Crear nuevo script
+      const script = document.createElement('script');
+      script.id = 'runner-script';
+      
+      // Añadir timestamp para evitar caché del navegador
+      script.src = `${fileName}?t=${Date.now()}`;
+      
+      script.onerror = function() {
+        console.log(`[Error] No se pudo cargar el archivo "${fileName}". Asegúrate de que el archivo existe en el mismo directorio.`);
+      };
+
+      document.body.appendChild(script);
+    }
+  </script>
+</body>
+</html>
