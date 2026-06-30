@@ -20,7 +20,11 @@ const visorInicial = {
  */
 function actualizarZoom(visorOriginal, nuevoZoom) {
   // TODO: Implementar
-  return visorOriginal;
+  const visorActualizado = {
+    ...visorOriginal,
+    zoom: nuevoZoom
+  };
+  return visorActualizado;
 }
 
 /**
@@ -29,7 +33,11 @@ function actualizarZoom(visorOriginal, nuevoZoom) {
  */
 function agregarCapa(visorOriginal, nuevaCapa) {
   // TODO: Implementar
-  return visorOriginal;
+  const visorActualizado = {
+    ...visorOriginal,
+    capas: [...visorOriginal.capas, { id: 'l3', nombre: nuevaCapa, visible: true }]
+  };
+  return visorActualizado;
 }
 
 /**
@@ -37,7 +45,11 @@ function agregarCapa(visorOriginal, nuevaCapa) {
  */
 function actualizarVersion(visorOriginal, nuevaVersion) {
   // TODO: Implementar
-  return visorOriginal;
+  const visorActualizado = {
+    ...visorOriginal,
+    metadata: { ...visorOriginal.metadata, version: nuevaVersion }
+  };
+  return visorActualizado;
 }
 
 /**
@@ -47,7 +59,15 @@ function actualizarVersion(visorOriginal, nuevaVersion) {
  */
 function alternarVisibilidadCapa(visorOriginal, idCapa) {
   // TODO: Implementar
-  return visorOriginal;
+  const visorActualizado = {
+    ...visorOriginal,
+    capas: visorOriginal.capas.map(capa => 
+      capa.id === idCapa 
+        ? { ...capa, visible: !capa.visible } 
+        : capa
+    )
+  };
+  return visorActualizado;
 }
 
 
